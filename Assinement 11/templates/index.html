@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickShort - URL Shortener</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">QuickShort</h1>
+        
+        <form method="POST" class="space-y-4">
+            <input type="url" name="long_url" placeholder="Paste your long link here..." required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" 
+                class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                Shorten URL
+            </button>
+        </form>
+
+        {% if short_url %}
+        <div class="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <p class="text-sm text-green-700 font-medium mb-2">Success! Here is your short link:</p>
+            <div class="flex items-center space-x-2">
+                <input type="text" id="shortUrl" value="{{ short_url }}" readonly
+                    class="bg-white border border-gray-300 px-3 py-1 rounded w-full text-blue-600 font-mono text-sm">
+                <button onclick="copyLink()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                    Copy
+                </button>
+            </div>
+            <p id="copyMsg" class="text-xs text-green-600 mt-2 hidden">Copied to clipboard!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyLink() {
+            var copyText = document.getElementById("shortUrl");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            
+            document.getElementById("copyMsg").classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("copyMsg").classList.add("hidden");
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
